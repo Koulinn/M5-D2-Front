@@ -132,8 +132,6 @@ const SignupForm = (props) => {
                     body: form,
                 }
             )
-            let dataRequested = await response.json()
-
         } catch (e) {
             return e
         }
