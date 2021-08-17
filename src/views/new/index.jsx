@@ -32,7 +32,7 @@ export default class NewBlogPost extends Component {
 
   sendForm = async (e) => {
     e.preventDefault()
-    const res = await fetch("http://localhost:3001/blogPost", {
+    const res = await fetch("http://localhost:3003/blogPost", {
       method: 'POST',
       body: JSON.stringify(this.state),
       headers: {
