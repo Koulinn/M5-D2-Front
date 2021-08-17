@@ -14,8 +14,8 @@ export default class NewBlogPost extends Component {
         unit: "minute"
       },
       author: {
-        name: "hardCoded",
-        avatar: "hardCoded"
+        name: "Rafa",
+        avatar: "https://res.cloudinary.com/koulin/image/upload/v1629206183/Strive-Blog-Avatar/ii2037c73tvd0eyx6bdo.png"
       }
     };
 
@@ -29,10 +29,42 @@ export default class NewBlogPost extends Component {
     });
     console.log(value)
   }
+  handleAuthorChange(value) {
+    if(value === 'author1'){
+      this.setState({
+        ...this.state,
+        author: {
+          name: "Rafa",
+          avatar: "https://res.cloudinary.com/koulin/image/upload/v1629206183/Strive-Blog-Avatar/ii2037c73tvd0eyx6bdo.png"
+        }
+      })
+    }
+    if(value === 'author2'){
+      this.setState({
+        ...this.state,
+        author: {
+          name: "Gama",
+          avatar: "https://res.cloudinary.com/koulin/image/upload/v1629206183/Strive-Blog-Avatar/ii2037c73tvd0eyx6bdo.png"
+        }
+      })
+    }
+    if(value === 'author3'){
+      this.setState({
+        ...this.state,
+        author: {
+          name: "Alfa",
+          avatar: "https://res.cloudinary.com/koulin/image/upload/v1629206183/Strive-Blog-Avatar/ii2037c73tvd0eyx6bdo.png"
+        }
+      })
+    }
+
+
+    console.log(value)
+  }
 
   sendForm = async (e) => {
     e.preventDefault()
-    const res = await fetch("http://localhost:3003/blogPost", {
+    const res = await fetch(process.env.REACT_APP_API_URL + "/blogPost", {
       method: 'POST',
       body: JSON.stringify(this.state),
       headers: {
@@ -64,6 +96,14 @@ export default class NewBlogPost extends Component {
               <option value="cat3">Category3</option>
               <option value="cat4">Category4</option>
               <option value="cat5">Category5</option>
+            </Form.Control>
+          </Form.Group>
+          <Form.Group controlId="blog-author" className="mt-3">
+            <Form.Label>Authors</Form.Label>
+            <Form.Control size="lg" as="select" onChange={(event) => this.handleAuthorChange(event.target.value)}>
+              <option value="author1">Rafa</option>
+              <option value="author2">Alfa</option>
+              <option value="author3">Gama</option>
             </Form.Control>
           </Form.Group>
           <Form.Group controlId="blog-content" className="mt-3">

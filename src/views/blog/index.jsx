@@ -9,16 +9,18 @@ class Blog extends Component {
     blog: {},
     loading: true,
   };
-  componentDidMount() {
+  componentDidMount = async () => {
     const { id } = this.props.match.params;
+    let res = await fetch(process.env.REACT_APP_API_URL + '/blogPost/' + id)
+    let blog = await res.json()
     console.log(posts);
-    const blog = posts.find((post) => post._id.toString() === id);
     if (blog) {
       this.setState({ blog, loading: false });
     } else {
       this.props.history.push("/404");
     }
   }
+  
 
   render() {
     const { loading, blog } = this.state;

@@ -12,12 +12,13 @@ export default class BlogList extends Component {
   }
 
   componentDidMount = async () =>{
-    let res = await fetch('http://localhost:3003/blogPost')
+    let res = await fetch(process.env.REACT_APP_API_URL + '/blogPost')
     let blogPosts = await res.json()
     console.log(blogPosts)
     this.setState({
         posts: [...blogPosts]
     })
+    console.log(process.env)
 }
   render() {
     return (
