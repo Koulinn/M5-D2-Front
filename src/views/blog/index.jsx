@@ -13,7 +13,7 @@ class Blog extends Component {
   };
   componentDidMount = async () => {
     const { id } = this.props.match.params;
-    let res = await fetch(process.env.REACT_APP_API_URL + '/blogPost/' + id)
+    let res = await fetch(process.env.REACT_APP_PROD_API_URL + '/blogPost/' + id)
     let blog = await res.json()
     if (blog) {
       this.setState({ blog, loading: false });
@@ -26,7 +26,7 @@ class Blog extends Component {
     try {
       // const request= fetch(process.env.REACT_APP_API_URL + 'blogPost/' + this.props.match.params.id)
       // console.log(request)
-      window.location.replace(process.env.REACT_APP_API_URL + '/blogPost/download/' + this.props.match.params.id)
+      window.location.replace(process.env.REACT_APP_PROD_API_URL + '/blogPost/download/' + this.props.match.params.id)
     } catch (error) {
       console.log(error)
     }

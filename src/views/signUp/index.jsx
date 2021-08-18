@@ -69,7 +69,7 @@ const SignupForm = (props) => {
                     setshowAlertAvatarError(false)
                 }
 
-                let response = await fetch(process.env.REACT_APP_API_URL + "/authors/",
+                let response = await fetch(process.env.REACT_APP_PROD_API_URL + "/authors/",
                 {
                     method: "POST",
                     headers: {
@@ -97,7 +97,7 @@ const SignupForm = (props) => {
 
         try {
             let response = await fetch(
-                process.env.REACT_APP_API_URL + "/authors/" + userId
+                process.env.REACT_APP_PROD_API_URL + "/authors/" + userId
                 // {
                 //     headers: {
                 //         Authorization: userToken,
@@ -126,7 +126,7 @@ const SignupForm = (props) => {
         try {
             const form = new FormData()
             form.append('avatarImg', userAvatar)
-            let response = await fetch(process.env.REACT_APP_API_URL + "/authors/" + userId + "/uploadAvatar",
+            let response = await fetch(process.env.REACT_APP_PROD_API_URL + "/authors/" + userId + "/uploadAvatar",
                 {
                     method: "POST",
                     body: form,

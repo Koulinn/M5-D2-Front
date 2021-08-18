@@ -120,10 +120,10 @@ class NewBlogPost extends Component {
     e.preventDefault()
     try {
       let requestMethod = 'POST'
-      let requestURL = process.env.REACT_APP_API_URL + "/blogPost"
+      let requestURL = process.env.REACT_APP_PROD_API_URL + "/blogPost"
       if(this.props.location.state){
         requestMethod = 'PUT'
-        requestURL = process.env.REACT_APP_API_URL + "/blogPost/" + this.props.location.state.detail._id
+        requestURL = process.env.REACT_APP_PROD_API_URL + "/blogPost/" + this.props.location.state.detail._id
       }
 
       if (this.state.blogPostImg) {
@@ -153,7 +153,7 @@ class NewBlogPost extends Component {
       if(this.props.location.state){
         currentPostId = this.props.location.state.detail._id
       }
-      const res = await fetch(process.env.REACT_APP_API_URL + "/blogPost/" + currentPostId + '/uploadCover', {
+      const res = await fetch(process.env.REACT_APP_PROD_API_URL + "/blogPost/" + currentPostId + '/uploadCover', {
         method: 'POST',
         body: this.state.blogPostImg,
       })
