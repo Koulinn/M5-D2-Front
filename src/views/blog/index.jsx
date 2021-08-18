@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Container, Image } from "react-bootstrap";
 import { withRouter } from "react-router";
 import BlogAuthor from "../../components/blog/blog-author";
-// import posts from "../../data/posts.json";
+import {MdEdit} from 'react-icons/md/'
 import "./styles.css";
 class Blog extends Component {
   state = {
@@ -30,7 +30,14 @@ class Blog extends Component {
         <div className="blog-details-root">
           <Container>
             <Image className="blog-details-cover" src={blog.cover} fluid />
-            <h1 className="blog-details-title">{blog.title}</h1>
+            <div className="d-flex justify-content-between">
+              <h1 className="blog-details-title">{blog.title}</h1>
+              {blog.author.name === localStorage.getItem('name') ? <MdEdit style={{width: '32px', height: '32px', alignSelf: 'center'}}
+                 onClick={()=> this.props.history.push(({
+                  pathname: `/update/${blog._id}`,
+                  state: { detail: this.state.blog }
+                }))} /> : ''}
+            </div>
 
             <div className="blog-details-container">
               <div className="blog-details-author">

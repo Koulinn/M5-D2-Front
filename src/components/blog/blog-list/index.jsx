@@ -25,7 +25,7 @@ export default class BlogList extends Component {
       <Row>
         {this.state.posts.map((post) => (
           <Col md={4} style={{ marginBottom: 50 }}>
-            <BlogItem key={post.title} {...post} />
+            <BlogItem key={post._id} {...post} />
           </Col>
         ))}
       </Row>

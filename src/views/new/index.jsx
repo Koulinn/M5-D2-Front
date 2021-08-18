@@ -9,25 +9,52 @@ import { withRouter } from "react-router";
 class NewBlogPost extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      error: null,
-      hideAlert: false,
-      blogPostImg: null,
-      bodyPost: {
-        content: "",
-        cover: "",
-        category: "Art",
-        readTime: {
-          value: 2,
-          unit: "minute"
-        },
-        author: {
-          name: localStorage.getItem("name"),
-          avatar: localStorage.getItem("avatar")
+    console.log(props.location.state)
+    if(props.location.state !== undefined){
+      this.state = {
+        error: null,
+        hideAlert: false,
+        blogPostImg: null,
+        bodyPost: {
+          content: props.location.state.detail.content,
+          cover: props.location.state.detail.cover,
+          category: props.location.state.detail.category,
+          title: props.location.state.detail.title,
+          readTime: {
+            value: props.location.state.detail.readTime.value,
+            unit: props.location.state.detail.readTime.unit
+          },
+          author: {
+            name: props.location.state.detail.author.name,
+            avatar: props.location.state.detail.author.avatar
+          }
+  
         }
+      };
 
-      }
-    };
+    }else {
+      this.state = {
+        error: null,
+        hideAlert: false,
+        blogPostImg: null,
+        bodyPost: {
+          content: "",
+          cover: "",
+          category: "Art",
+          title: '',
+          readTime: {
+            value: 2,
+            unit: "minute"
+          },
+          author: {
+            name: localStorage.getItem("name"),
+            avatar: localStorage.getItem("avatar")
+          }
+  
+        }
+      };
+
+    }
 
     this.handleChange = this.handleChange.bind(this);
     this.handleBlogCover = this.handleBlogCover.bind(this)
@@ -93,11 +120,17 @@ class NewBlogPost extends Component {
   sendForm = async (e) => {
     e.preventDefault()
     try {
+      let requestMethod = 'POST'
+      let requestURL = process.env.REACT_APP_API_URL + "/blogPost"
+      if(this.props.location.state){
+        requestMethod = 'PUT'
+        requestURL = process.env.REACT_APP_API_URL + "/blogPost/" + this.props.location.state.detail._id
+      }
 
       if (this.state.blogPostImg) {
 
-        const res = await fetch(process.env.REACT_APP_API_URL + "/blogPost", {
-          method: 'POST',
+        const res = await fetch(requestURL, {
+          method: requestMethod,
           body: JSON.stringify(this.state.bodyPost),
           headers: {
             "Content-Type": "application/json"
@@ -115,8 +148,13 @@ class NewBlogPost extends Component {
 
   }
   sendBlogCover = async (postId) => {
+    
     try {
-      const res = await fetch(process.env.REACT_APP_API_URL + "/blogPost/" + postId + '/uploadCover', {
+      let currentPostId = postId
+      if(this.props.location.state){
+        currentPostId = this.props.location.state.detail._id
+      }
+      const res = await fetch(process.env.REACT_APP_API_URL + "/blogPost/" + currentPostId + '/uploadCover', {
         method: 'POST',
         body: this.state.blogPostImg,
       })
@@ -140,11 +178,11 @@ class NewBlogPost extends Component {
         <Form onSubmit={this.sendForm} className="mt-5">
           <Form.Group controlId="blog-form" className="mt-3">
             <Form.Label>Title</Form.Label>
-            <Form.Control size="lg" placeholder="Title" onChange={(event) => this.handleChange(event.target.value, 'title')} />
+            <Form.Control size="lg" placeholder="Title" value={this.state.bodyPost.title} onChange={(event) => this.handleChange(event.target.value, 'title')} />
           </Form.Group>
           <Form.Group controlId="blog-category" className="mt-3">
             <Form.Label>Category</Form.Label>
-            <Form.Control size="lg" as="select" onChange={(event) => this.handleChange(event.target.value, 'category')}>
+            <Form.Control size="lg" as="select" value={this.state.bodyPost.category} onChange={(event) => this.handleChange(event.target.value, 'category')}>
               <option value="art">Art</option>
               <option value="games">Games</option>
               <option value="cakes">Cakes</option>

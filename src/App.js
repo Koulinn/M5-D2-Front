@@ -14,6 +14,7 @@ function App() {
       <Route path="/" exact component={Home} />
       <Route path="/blog/:id" exact component={Blog} />
       <Route path="/new" exact component={NewBlogPost} />
+      <Route path="/update/:id" exact component={NewBlogPost} />
       <Route path="/register" exact component={SignupForm} />
       <Footer />
     </BrowserRouter>
