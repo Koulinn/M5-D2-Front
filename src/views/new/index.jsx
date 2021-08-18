@@ -9,7 +9,6 @@ import { withRouter } from "react-router";
 class NewBlogPost extends Component {
   constructor(props) {
     super(props);
-    console.log(props.location.state)
     if(props.location.state !== undefined){
       this.state = {
         error: null,
