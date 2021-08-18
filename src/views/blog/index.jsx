@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { Container, Image } from "react-bootstrap";
 import { withRouter } from "react-router";
 import BlogAuthor from "../../components/blog/blog-author";
-import {MdEdit} from 'react-icons/md/'
+import {MdEdit, MdCloudDownload} from 'react-icons/md/'
+
+
 import "./styles.css";
 class Blog extends Component {
   state = {
@@ -17,6 +19,16 @@ class Blog extends Component {
       this.setState({ blog, loading: false });
     } else {
       this.props.history.push("/404");
+    }
+  }
+
+  downloadPost = (e) => {
+    try {
+      // const request= fetch(process.env.REACT_APP_API_URL + 'blogPost/' + this.props.match.params.id)
+      // console.log(request)
+      window.location.replace(process.env.REACT_APP_API_URL + '/blogPost/download/' + this.props.match.params.id)
+    } catch (error) {
+      console.log(error)
     }
   }
   
@@ -46,6 +58,11 @@ class Blog extends Component {
               <div className="blog-details-info">
                 <div>{blog.createdAt}</div>
                 <div>{`${blog.readTime.value} ${blog.readTime.unit} read`}</div>
+                <div onClick={(e)=> this.downloadPost(e)}>
+                  <MdCloudDownload 
+                  style={{width: '32px', height: '32px', alignSelf: 'center', cursor:'pointer'}}
+                  />
+                </div>
               </div>
             </div>
 
