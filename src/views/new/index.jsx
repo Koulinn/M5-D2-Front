@@ -5,11 +5,12 @@ import { Container, Form, Button } from "react-bootstrap";
 import "./styles.css";
 import { Alert } from 'react-bootstrap';
 import { withRouter } from "react-router";
+import { deletePost } from './new-aux.js'
 
 class NewBlogPost extends Component {
   constructor(props) {
     super(props);
-    if(props.location.state !== undefined){
+    if (props.location.state !== undefined) {
       this.state = {
         error: null,
         hideAlert: false,
@@ -27,11 +28,11 @@ class NewBlogPost extends Component {
             name: props.location.state.detail.author.name,
             avatar: props.location.state.detail.author.avatar
           }
-  
+
         }
       };
 
-    }else {
+    } else {
       this.state = {
         error: null,
         hideAlert: false,
@@ -49,7 +50,7 @@ class NewBlogPost extends Component {
             name: localStorage.getItem("name"),
             avatar: localStorage.getItem("avatar")
           }
-  
+
         }
       };
 
@@ -113,15 +114,12 @@ class NewBlogPost extends Component {
     });
   }
 
-
-
-
   sendForm = async (e) => {
     e.preventDefault()
     try {
       let requestMethod = 'POST'
       let requestURL = process.env.REACT_APP_PROD_API_URL + "/blogPost"
-      if(this.props.location.state){
+      if (this.props.location.state) {
         requestMethod = 'PUT'
         requestURL = process.env.REACT_APP_PROD_API_URL + "/blogPost/" + this.props.location.state.detail._id
       }
@@ -147,10 +145,10 @@ class NewBlogPost extends Component {
 
   }
   sendBlogCover = async (postId) => {
-    
+
     try {
       let currentPostId = postId
-      if(this.props.location.state){
+      if (this.props.location.state) {
         currentPostId = this.props.location.state.detail._id
       }
       const res = await fetch(process.env.REACT_APP_PROD_API_URL + "/blogPost/" + currentPostId + '/uploadCover', {
@@ -161,8 +159,8 @@ class NewBlogPost extends Component {
       if (result.uploaded) {
         this.resetState()
         setTimeout(() => {
-          this.props.history.push("/")
-      }, 2000)
+          this.props.history.push("/home")
+        }, 2000)
       }
 
     } catch (error) {
@@ -210,18 +208,29 @@ class NewBlogPost extends Component {
           </Form.Group>
           {this.state.hideAlert && <Alert variant="success"> <Alert.Heading>Blog posted successfully</Alert.Heading></Alert>}
           {this.state.error && <Alert variant="danger"> <Alert.Heading>You must add an image to your post</Alert.Heading></Alert>}
+          {this.state.showDeleteError && <Alert variant="danger"> <Alert.Heading>We couldn't deleted the post =(</Alert.Heading></Alert>}
 
-          <Form.Group className="d-flex mt-3 justify-content-end">
-            <Button type="reset" size="lg" variant="outline-dark">
-              Reset
-            </Button>
+          <Form.Group className={this.props.location.state !== undefined ? "d-flex mt-5 justify-content-between" : "d-flex mt-5 justify-content-end"}>
+            {this.props.location.state !== undefined ?
+              <Button type="button" size="lg" variant="outline-dark"
+                onClick={(e) => {deletePost(e, this.props.location.state.detail._id) ? this.props.history.push("/home") : this.props.setState({
+                  ...this.state,
+                  showDeleteError: true
+                })
+              }
+                
+                }>
+                Delete post
+              </Button> :
+              ''}
+
             <Button
               type="submit"
               size="lg"
               variant="dark"
               style={{ marginLeft: "1em" }}
             >
-              Submit
+              {this.props.location.state !== undefined ? 'Edit' : 'Create post'}
             </Button>
           </Form.Group>
         </Form>

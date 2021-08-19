@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Container, Image } from "react-bootstrap";
 import { withRouter } from "react-router";
 import BlogAuthor from "../../components/blog/blog-author";
-import {MdEdit, MdCloudDownload} from 'react-icons/md/'
+import {MdEdit, MdCloudDownload} from 'react-icons/md/';
+import { format } from 'date-fns'
 
 
 import "./styles.css";
@@ -56,7 +57,7 @@ class Blog extends Component {
                 <BlogAuthor {...blog.author} />
               </div>
               <div className="blog-details-info">
-                <div>{blog.createdAt}</div>
+                <div>{format(new Date(blog.createdAt), 'dd/MM/yyyy')}</div>
                 <div>{`${blog.readTime.value} ${blog.readTime.unit} read`}</div>
                 <div onClick={(e)=> this.downloadPost(e)}>
                   <MdCloudDownload 
