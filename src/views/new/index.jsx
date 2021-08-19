@@ -5,6 +5,7 @@ import { Container, Form, Button } from "react-bootstrap";
 import "./styles.css";
 import { Alert } from 'react-bootstrap';
 import { withRouter } from "react-router";
+import { deletePost } from './new-aux.js'
 
 class NewBlogPost extends Component {
   constructor(props) {
@@ -113,9 +114,6 @@ class NewBlogPost extends Component {
     });
   }
 
-
-
-
   sendForm = async (e) => {
     e.preventDefault()
     try {
@@ -212,11 +210,12 @@ class NewBlogPost extends Component {
           {this.state.error && <Alert variant="danger"> <Alert.Heading>You must add an image to your post</Alert.Heading></Alert>}
 
           <Form.Group className={this.props.location.state !== undefined ? "d-flex mt-5 justify-content-between" : "d-flex mt-5 justify-content-end"}>
-            {this.props.location.state !== undefined ? 
-              <Button type="button" size="lg" variant="outline-dark">
+            {this.props.location.state !== undefined ?
+              <Button type="button" size="lg" variant="outline-dark"
+                onClick={(e) => deletePost(e, this.props.location.state.detail._id)}>
                 Delete post
-              </Button> : 
-            ''}
+              </Button> :
+              ''}
 
             <Button
               type="submit"
