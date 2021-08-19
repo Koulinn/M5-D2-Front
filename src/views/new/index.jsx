@@ -159,7 +159,7 @@ class NewBlogPost extends Component {
       if (result.uploaded) {
         this.resetState()
         setTimeout(() => {
-          this.props.history.push("/")
+          this.props.history.push("/home")
         }, 2000)
       }
 
@@ -213,7 +213,7 @@ class NewBlogPost extends Component {
           <Form.Group className={this.props.location.state !== undefined ? "d-flex mt-5 justify-content-between" : "d-flex mt-5 justify-content-end"}>
             {this.props.location.state !== undefined ?
               <Button type="button" size="lg" variant="outline-dark"
-                onClick={(e) => {deletePost(e, this.props.location.state.detail._id) ? this.props.history.push("/") : this.props.setState({
+                onClick={(e) => {deletePost(e, this.props.location.state.detail._id) ? this.props.history.push("/home") : this.props.setState({
                   ...this.state,
                   showDeleteError: true
                 })

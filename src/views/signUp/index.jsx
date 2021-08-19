@@ -114,7 +114,7 @@ const SignupForm = (props) => {
             )
             setShowAlert(true)
             setTimeout(() => {
-                props.history.push("/")
+                props.history.push("/home")
             }, 2000)
         } catch (e) {
             console.log(e)
