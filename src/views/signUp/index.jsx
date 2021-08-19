@@ -79,10 +79,15 @@ const SignupForm = (props) => {
                 }
                 )
                 
+                console.log(response)
                 
                 let dataRequested = await response.json()
-                await sendUserAvatar(dataRequested.id)
-                getUserData(dataRequested.id)
+                if(response.status !== 403){
+                    await sendUserAvatar(dataRequested.id)
+                    getUserData(dataRequested.id)
+                } else {
+                    setshowAlertAvatarError(true)
+                }
             } else {
                 setshowAlertAvatarError(true)
             }
@@ -98,11 +103,6 @@ const SignupForm = (props) => {
         try {
             let response = await fetch(
                 process.env.REACT_APP_PROD_API_URL + "/authors/" + userId
-                // {
-                //     headers: {
-                //         Authorization: userToken,
-                //     },
-                // }
             )
             let userData = await response.json()
             let userDataKeyList = Object.keys(userData)
@@ -265,7 +265,7 @@ const SignupForm = (props) => {
 
 
                         {showAlert && <Alert variant="success"> <Alert.Heading>Account Created Successfully</Alert.Heading></Alert>}
-                        {showAlertAvatarError && <Alert variant="danger"> <Alert.Heading>You must add an image</Alert.Heading></Alert>}
+                        {showAlertAvatarError && <Alert variant="danger"> <Alert.Heading>You must add an image or user already exists</Alert.Heading></Alert>}
                         <button
                             type="submit"
                             className="btn btn-success my-2 btn-large w-100"
