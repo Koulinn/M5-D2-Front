@@ -33,8 +33,8 @@ const validate = (values) => {
     }
 
 
-    if (!values.birthday) {
-        errors.birthday = "Required"
+    if (!values.dateOfBirth) {
+        errors.dateOfBirth = "Required"
     }
 
 
@@ -53,7 +53,7 @@ const SignupForm = (props) => {
             name: "",
             surname: "",
             email: "",
-            birthday: "",
+            dateOfBirth: "",
             password: "",
         },
         validate,
@@ -69,7 +69,7 @@ const SignupForm = (props) => {
                     setshowAlertAvatarError(false)
                 }
 
-                let response = await fetch(process.env.REACT_APP_PROD_API_URL + "/authors/",
+                let response = await fetch(process.env.REACT_APP_PROD_API_URL + "/user/new/register",
                 {
                     method: "POST",
                     headers: {
@@ -83,8 +83,9 @@ const SignupForm = (props) => {
                 
                 let dataRequested = await response.json()
                 if(response.status !== 403){
-                    await sendUserAvatar(dataRequested.id)
-                    getUserData(dataRequested.id)
+                    // await sendUserAvatar(dataRequested.id)
+                    // await getUserData(dataRequested.id)
+                    console.log(dataRequested)
                 } else {
                     setshowAlertAvatarError(true)
                 }
@@ -102,7 +103,7 @@ const SignupForm = (props) => {
 
         try {
             let response = await fetch(
-                process.env.REACT_APP_PROD_API_URL + "/authors/" + userId
+                process.env.REACT_APP_PROD_API_URL + "/user/" + userId
             )
             let userData = await response.json()
             let userDataKeyList = Object.keys(userData)
@@ -150,7 +151,7 @@ const SignupForm = (props) => {
                         name: "",
                         surname: "",
                         email: "",
-                        birthday: "",
+                        dateOfBirth: "",
                         password: "",
                     }}
                 >
@@ -234,20 +235,20 @@ const SignupForm = (props) => {
 
 
                         <div className="form-group">
-                            <label htmlFor="birthday">
+                            <label htmlFor="dateOfBirth">
                                 Birthday :
                             </label>
                             <Field
-                                id="birthday"
+                                id="dateOfBirth"
                                 className="form-control"
-                                name="birthday"
+                                name="dateOfBirth"
                                 type="date"
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                value={formik.values.birthday}
+                                value={formik.values.dateOfBirth}
                             />
-                            {formik.touched.birthday && formik.errors.birthday ? (
-                                <div className="fw-bold text-danger">{formik.errors.birthday}</div>
+                            {formik.touched.dateOfBirth && formik.errors.dateOfBirth ? (
+                                <div className="fw-bold text-danger">{formik.errors.dateOfBirth}</div>
                             ) : null}
                         </div>
                         <div className="form-group">
