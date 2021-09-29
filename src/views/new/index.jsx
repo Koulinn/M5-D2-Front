@@ -17,7 +17,7 @@ class NewBlogPost extends Component {
         blogPostImg: null,
         bodyPost: {
           content: props.location.state.detail.content,
-          cover: props.location.state.detail.cover,
+          cover: "https://product-image.juniqe-production.juniqe.com/media/catalog/product/seo-cache/x800/18/29/18-29-301L__CENTER/Cat-Laura-Graves-Canvas-Print.jpg",
           category: props.location.state.detail.category,
           title: props.location.state.detail.title,
           readTime: {
@@ -39,7 +39,7 @@ class NewBlogPost extends Component {
         blogPostImg: null,
         bodyPost: {
           content: "",
-          cover: "",
+          cover: "https://product-image.juniqe-production.juniqe.com/media/catalog/product/seo-cache/x800/18/29/18-29-301L__CENTER/Cat-Laura-Graves-Canvas-Print.jpg",
           category: "Art",
           title: '',
           readTime: {
@@ -81,14 +81,14 @@ class NewBlogPost extends Component {
   handleBlogCover(file) {
     let form = new FormData()
     form.append('blogPostImg', file)
-    this.setState({
-      blogPostImg: form,
-      error: false,
-      bodyPost: {
-        ...this.state.bodyPost
-      }
+    // this.setState({
+    //   blogPostImg: form,
+    //   error: false,
+    //   bodyPost: {
+    //     ...this.state.bodyPost
+    //   }
 
-    });
+    // });
   }
 
   resetState() {
@@ -124,21 +124,22 @@ class NewBlogPost extends Component {
         requestURL = process.env.REACT_APP_PROD_API_URL + "/blogPost/" + this.props.location.state.detail._id
       }
 
-      if (this.state.blogPostImg) {
+      // if (this.state.blogPostImg) {
 
         const res = await fetch(requestURL, {
           method: requestMethod,
           body: JSON.stringify(this.state.bodyPost),
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + window.localStorage.getItem('accessToken')
           }
         })
 
         const result = await res.json()
-        await this.sendBlogCover(result.id)
-      } else {
-        this.handleError(true)
-      }
+        // await this.sendBlogCover(result.id)
+      // } else {
+      //   this.handleError(true)
+      // }
     } catch (error) {
       console.log(error)
     }
