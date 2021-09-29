@@ -23,9 +23,9 @@ class Blog extends Component {
     }
   }
 
-  downloadPost = (e) => {
+  downloadPost = async (e) => {
     try {
-      // const request= fetch(process.env.REACT_APP_PROD_API_URL + 'blogPost/' + this.props.match.params.id)
+      // await fetch(process.env.REACT_APP_PROD_API_URL + '/blogPost/download/' + this.props.match.params.id)
       // console.log(request)
       window.location.replace(process.env.REACT_APP_PROD_API_URL + '/blogPost/download/' + this.props.match.params.id)
     } catch (error) {
