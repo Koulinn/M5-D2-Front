@@ -4,6 +4,59 @@ import { useFormik, Formik, Field, Form } from "formik"
 import { Alert } from 'react-bootstrap';
 import { withRouter } from "react-router"
 
+
+
+
+import axios from 'axios';
+import createAuthRefreshInterceptor from 'axios-auth-refresh';
+
+
+let accessToken= localStorage.getItem('accessToken')
+
+axios.defaults.headers.common['Authorization'] = accessToken;
+
+const body ={
+    actualRefreshToken: localStorage.getItem('token')
+}
+
+
+const refreshAuthLogic = async (failedRequest) => { 
+    console.log('inside refresh func')
+    const tokenRefreshResponse = await axios.post( process.env.REACT_APP_PROD_API_URL + '/user/refresh/token',{body})
+    console.log(tokenRefreshResponse.data, 'Token refresh response')
+    // accessToken = tokenRefreshResponse.data.accessToken
+    // RefreshToken = tokenRefreshResponse.data.accessToken
+
+    localStorage.setItem('token', tokenRefreshResponse.data.refreshToken);
+    localStorage.setItem('accessToken', tokenRefreshResponse.data.accessToken);
+
+    failedRequest.response.config.headers['Authorization'] = 'Bearer ' + tokenRefreshResponse.data.accessToken;
+
+    return Promise.resolve()
+}
+
+
+// Instantiate the interceptor
+createAuthRefreshInterceptor(axios, refreshAuthLogic);
+
+// Make a call. If it returns a 401 error, the refreshAuthLogic will be run, 
+// and the request retried with the new token
+
+const getUserData = async()=> {const response = await axios.get(process.env.REACT_APP_PROD_API_URL + "/user/me/stories")
+console.log(response)
+    return response
+}
+
+const dataTest = async ()=> await getUserData()
+console.log(dataTest())
+
+
+
+
+
+
+
+
 const validate = (values) => {
     const errors = {}
 
